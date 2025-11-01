@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Scout</title>
+  <link rel="icon" href="./images/logo-svg.svg">
+  <link rel="stylesheet" href="./style/style.css" />
+  <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="menu">
+      <a href="#" class="menu-btn">
+        <div class="menu-buts">
+          <i class="fa fa-navicon" aria-hidden="true"></i>
+        </div>
+      </a>
+      <nav class="menu-list">
+        <a href="#">Главная</a>
+        <a href="#">Наши услуги</a>
+        <a href="#">Наши работы</a>
+        <a href="#">Контакты</a>
+      </nav>
+    </div>
+    <div class="content">
+      <nav class="navbar">
+        <div class="logo">
+            <a href="index.html"><img src="RoomScout_logo.jpg" alt="Room Scout Logo"></a>
+        </div>
+        <div class="nav-links">
+            <a href="property_list_page.html">Match</a>
+            <a href="#">Messages</a>
+            <a href="#">My shortlist</a>
+            <a href="#">My Account</a>
+        </div>
+    </nav>
+      <section class="search">
+        <div class="container">
+          <div class="search-inner">
+            <h1><b>We scout, you settle!</b></h1>
+            <div class="search-box">
+              <h4><b>Enter a location</b></h4>
+              <input type="text" placeholder="eg Fallowfield or M14" maxlength="50">
+            </div>
+            <div class="search-map">
+                <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+                <style>
+                  #map {
+                      width: 100%;
+                      height: 600px;
+                  }
+              </style>
+              <div id="map"></div>
+
+              <script>
+                  // Initialize MapKit with your token
+                  mapkit.init({
+                      authorizationCallback: function(done) {
+                          done(""); // Replace with your actual token
+                      }
+                  });
+          
+                  // Create a map instance
+                  const map = new mapkit.Map("map");
+          
+                  // Set the center coordinates (latitude, longitude)
+                  var centerCoordinate = new mapkit.Coordinate(53.465930954133505, -2.2321314982809373); // UOM, MCR
+                  var centerSpan = new mapkit.CoordinateSpan(0.032,0.032);
+                  var region = new mapkit.CoordinateRegion(centerCoordinate,centerSpan);
+                  map.setRegionAnimated(region);
+                  // Center the map on the given coordinate
+                  "map.setCenterAnimated(centerCoordinate);"
+                  
+                  //Function to  on map for a set of lat/long coords
+                  function addPin(map, latitude, longitude, title = "Location", color = "red") {
+                    if (!mapkit || !map) {
+                        console.error("MapKit JS is not initialized or map is missing.");
+                        return;
+                    }
+
+                    let coordinate = new mapkit.Coordinate(latitude, longitude);
+
+                    let annotation = new mapkit.MarkerAnnotation(coordinate, {
+                        title: title,
+                        color: color, // Can be "red", "blue", "green", etc.
+                        glyphImage: {  // Custom icon instead of text
+                          1: "./images/Logo.png", // Replace with your actual image URL
+                        }
+                    });
+
+                    map.addAnnotations([annotation]);
+                  }
+                  //addPin(map, 53.44553065086439, -2.216544910210509,title="Sheavyn House", color ="purple")
+                  
+                  let addressList = [[53.43481760042463, -2.2130559494519746],[53.44553065086439, -2.216544910210509],[53.46760412317216, -2.2339759631557796],[53.4705988918359, -2.2387252566934253]]
+                  let nameList = ["128 Mauldeth Road", "Sheavyn house", "Kilburn building", "Manchester Metropolitan University","M14 5PG"]
+                  
+                  let postcodeList = ['M14 5PG', 'M14 5PT', 'M14 5QL', 'BL1 2PG', 'M14 6TB', 'M14 6YH', 'M14 6QX', 'M14 6TZ', 'M6 7DG', 'M15 5QL', 'M15 5LL', 'M20 4BP', 'M15 5LL', 'M14 6RB', 'M20 4NZ', 'M14 6SE', 'M14 5LY', 'M14 7EB', 'M20 2NS', 'M14 5PX', 'M20 3BG', 'M20 3BG', 'M20 3BG', 'M1 5QF', 'M13 0FY', 'M15 6SZ', 'M14 6SE', 'M14 4PE', 'M14 6BG', 'M20 3FS', 'M13 9SW', 'M14 5GG', 'M14 6GG', 'M14 6XG', 'M20 3BG', 'M20 3BG', 'M14 6LT', 'M21 7RA', 'M14 6SB', 'M13 0ZP', 'M14 4DT', 'M13 0XX', 'M14 7PX', 'M14 6BN', 'M14 6BN', 'M20 3HA', 'M13 0YP', 'M13 0YP', 'M13 0YP', 'M14 5DN', 'M14 6QJ', 'WN6 0NW', 'M1 2WD', 'M1 5GH', 'M1 5GH', 'M20 4PH', 'M20 4PH', 'M14 6AN', 'M14 6QJ', 'M14 4JB', 'M13 0BR', 'M14 6UA', 'M14 6UA', 'M13 9BA', 'M13 9JQ', 'M6 7EL', 'M13 0GW', 'M13 9XE', 'M14 6UA', 'M13 9JQ', 'M13 9EL', 'M13 9GT', 'M13 0BR', 'M14 6PS', 'M14 7PE', 'M14 6PS', 'M14 7BX', 'M20 3QW', 'M19 2TU', 'M14 4BA', 'M14 7PH', 'M14 6UR', 'M14 6BG', 'M14 6SA', 'M14 5LY', 'M14 6SE', 'M14 7NZ', 'M14 5PE', 'M14 4DH', 'M13 0BR', 'M14 5LE', 'M6 7EL', 'M14 5NW', 'M14 6FG', 'M14 6LW', 'M14 5DA', 'M14 7NZ', 'M14 5SU', 'M14 5SU', 'M14 6BG', 'M14 6SA', 'M14 6PS', 'M14 6YL', 'M20 1JB', 'M14 4SS', 'M14 6GG', 'M14 5RU', 'M20 3BJ', 'M14 6TB', 'M19 2BN', 'M7 3TH', 'M3 3AT', 'M7 3SA', 'M6 5YB', 'M6 5LB', 'M14 5NL', 'M7 3TD', 'M29 7JS', 'M40 1WR', 'M40 9JT', 'M14 7NZ', 'M30 8AA', 'SK5 6DQ', 'WN3 4RY', 'M20 4NL', 'M14 5SU', 'M15 5LL', 'M14 7NZ', 'M14 5NY', 'M20 4NQ', 'M20 4RT', 'M20 5PL', 'M20 4NL', 'M14 6PR', 'M15 4AN', 'M15 5LZ', 'M15 5QL', 'M15 5LL', 'M15 4AN', 'M15 4AN', 'M14 6JG', 'M14 6YH', 'M14 5GY', 'M14 6XG', 'M14 5BQ', 'M14 6XG', 'M14 7NZ', 'M14 6XG', 'M14 6XG', 'M20 4NX', 'M14 6AN', 'M13 9SW', 'M13 9AU', 'M20 3FS', 'M14 6UB', 'M14 6SE', 'M13 9HP', 'M14 6PR', 'M13 9GE', 'M14 5SU', 'M14 5SU', 'M14 5PG', 'M14 6UG', 'M13 9HP', 'M14 6PS', 'M14 5SU', 'M15 5LZ', 'M15 5LZ', 'M15 5QL', 'M14 6PR', 'M20 3DU', 'M14 6PR', 'M13 9ER', 'M14 6LW', 'M14 5HN', 'M19 2BN', 'M14 6SA', 'M14 5SU', 'M15 5NA', 'M14 5PW', 'M14 5PW', 'M14 5NY', 'M6 5NT', 'M20 4NG', 'M20 4NG', 'M20 4NG', 'M20 3DU', 'M14 7NP', 'M14 6PS', 'M14 6PS', 'M20 3HU', 'M14 5QL', 'M14 5HL', 'M14 5HB', 'M14 5JX', 'M46 9DN', 'M15 6SZ', 'M14 5PG', 'M5 5FU', 'SK5 6DQ', 'M15 4AN', 'M14 6PR', 'M19 2BN', 'M15 6SZ', 'M20 2DW', 'M14 5PW', 'M14 7NR', 'M19 2DS', 'M15 6SZ', 'M20 1LH', 'M14 5NL', 'M14 5NL', 'M15 5LL', 'M15 5TA', 'M14 5NW', 'M14 5NW', 'M15 4UW', 'M14 5GY', 'M14 5GY', 'M19 2BN', 'M14 7NZ', 'M20 4NL', 'M20 4NL', 'M20 4NL', 'M14 6YH', 'M14 6TB', 'M21 7RA', 'M14 5SU', 'M14 5SU', 'M14 5SU', 'M14 6RG', 'M14 7LH', 'M14 5PB', 'M14 6UR', 'M14 5PG', 'M14 6LU', 'M14 6LU', 'M14 6LU', 'M14 6UY', 'M13 0ZE', 'M13 9QQ', 'M14 5PB', 'M14 5PG', 'M14 5PG', 'M14 5PZ', 'M14 6NP', 'M19 2BN', 'M14 6LU', 'M14 5PZ', 'M14 6NP', 'M19 2BN', 'M20 4PH', 'M14 5GG', 'M14 5GG', 'M14 5LY', 'M14 5GG', 'M14 5SU', 'M20 2WF', 'M13 0DL', 'M20 2LZ', 'M14 6LZ']
+                  //Add pins on map for an array of pairs of coords
+                  
+                  /*
+                  for (let i=0; i<=addressList.length; i++){
+                      lat = addressList[i][0]
+                      long = addressList[i][1]
+
+                      addPin(map,lat,long,title=nameList[i],color="purple")
+                  }
+                  */
+                  
+                  //Add pins on map for an array of addresses using search function
+                  
+                  colorList = ["red","orange","yellow","green","blue","indigo","violet"]
+
+                  for (let i=0; i<=postcodeList.length;i++){
+                    //var colorRandom = colorList[Math.floor(Math.random() * colorList.length)]
+                    getCoordinates(postcodeList[i])
+                    .then(([latitude,longitude]) => { addPin(map,latitude,longitude,title=postcodeList[i],color="#efda51")
+                    })
+
+                    .catch(error => {console.error("Error getting coordinates",error);        
+                    });
+                   
+
+                    
+                    //addPin(map,lat,long,title=nameList[i],color="red")
+                  }
+                  
+                  
+                  //Function to get coordinates
+                  function getCoordinates(address) {
+                    return new Promise((resolve, reject) => {
+                      if (!mapkit || !mapkit.Search) {
+                          return reject("MapKit JS is not initialized.");
+                      }
+
+                      const geocoder = new mapkit.Geocoder();
+                      
+                      geocoder.lookup(address, function(error, data) {
+                          if (error) {
+                              console.error("Geocoding error:", error);
+                              alert("Error geocoding the address.");
+                              return reject(error);
+                          }
+
+                           // If successful, extract the coordinates from the response
+                          if (data.results.length > 0) { 
+                              var coordinate = data.results[0].coordinate;
+                              var lat = coordinate.latitude;
+                              var long = coordinate.longitude;
+                              
+                              
+                              return resolve([lat,long]);
+                            }
+                          else {
+                            
+                            return reject("No results found");
+                          }}
+                      );
+                  });
+              }
+              
+              getCoordinates("Snowdon summit")
+              .then(([latitude,longitude]) => { addPin(map,latitude,longitude,title="Snowdon Summit",color="red")
+              })
+              .catch(error => {console.error("Error getting coordinates",error);
+                                     alert("Error user");
+                    })
+              
+              </script>
+                </iframe></div>
+          </div>
+        </div>
+      </section>
+      <section class="service">
+        <div class="container">
+          <div class="service-inner">
+            <div class="service-title">
+              <h2><b>Our service</b></h2>
+            </div>
+            <div class="service-list">
+              <div class="service-item">
+                <img src="./images/card1.webp" alt="" />
+                <h3>Object 1</h3>
+                <p>
+                  Searching for living
+                </p>
+              </div>
+              <div class="service-item">
+                <img src="./images/card2.webp" alt="" class="card2" />
+                <h3>Object 2</h3>
+                <p>
+                  Serching for mates
+                </p>
+              </div>
+              <div class="service-item">
+                <img src="./images/card3.webp" alt="" />
+                <h3>Object 3</h3>
+                <p>
+                  Sending smth
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="price">
+        <div class="container">
+          <div class="price-w1">
+            <div class="price-w2">
+              <div class="price-text">
+                <h2>
+                  Want to find your <br />
+                  roommate?
+                </h2>
+              </div>
+              <div class="price-but">
+                <button><b>Start to search!</b></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="offers">
+        <div class="container">
+          <div class="offers-text">
+            <h2>Why choose us?</h2>
+          </div>
+          <div class="offers-inner">
+            <div class="offers-off">
+              <div class="offers-block">
+                <img src="./images/basic_world.svg" alt="" />
+                <div class="offers-off-txt">
+                  <h3><b>Local Expertise</b></h3>
+                  <p>
+                    Team of current Manchester students with firsthand housing experience
+                  </p>
+                </div>
+              </div>
+              <div class="offers-block">
+                <img src="./images/weather_last_quarter.svg" alt="" />
+                <div class="offers-off-txt">
+                  <h3><b>Safety First</b></h3>
+                  <p>
+                    All properties and roommates verified through thorough screening
+                  </p>
+                </div>
+              </div>
+              <div class="offers-block">
+                <img src="./images/music_record.svg" alt="" />
+                <div class="offers-off-txt">
+                  <h3><b>Student Community</b></h3>
+                  <p>
+                    The growing network of verified students for safe and reliable house-sharing
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="offers-image">
+              <img src="./images/handsome.webp" alt="" />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="trust">
+        <div class="container">
+          <div class="trust-text">
+            <h2>Benefits of Our Matching System</h2>
+          </div>
+          <div class="trust-inner">
+            <div class="trust-image">
+              <img src="./images/handsome.webp" alt="" />
+            </div>
+            <div class="trust-off">
+              <div class="trust-block">
+                <div class="trust-off-txt">
+                  <h3><b>Better Living Experience</b></h3>
+                  <p>
+                    Compatible roommates lead to harmonious living environments and lasting friendships
+                  </p>
+                </div>
+                <img src="./images/basic_world.svg" alt="" />
+              </div>
+              <div class="trust-block">
+                <div class="trust-off-txt">
+                  <h3><b>Cost Efficiency</b></h3>
+                  <p>
+                    Share expenses effectively with like-minded students who match your budget plans
+                  </p>
+                </div>
+                <img src="./images/weather_last_quarter.svg" alt="" />
+              </div>
+              <div class="trust-block">
+                <div class="trust-off-txt">
+                  <h3><b>Time Saving</b></h3>
+                  <p>
+                    Quick matching algorithm finds compatible roommates based on your preferences
+                  </p>
+                </div>
+                <img src="./images/music_record.svg" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="contact-us">
+        <div class="container">
+          <div class="contact-us-text">
+            <h2><b>Contact us</b></h2>
+            <p>
+              Позвоните нам или оставьте заявку. Наши <br />
+              менеджеры перезвонят вам!
+            </p>
+          </div>
+          <div class="contact-us-both">
+            <div class="contact-us-nav">
+              <div class="contact-us-cont">
+                <p><b>+7 777 777 77 77</b></p>
+                <p>nbee.nbee.nbee@nbee.com</p>
+              </div>
+              <div class="contact-us-pos">
+                <h6>г.Алматы., Алматинская 228</h6>
+              </div>
+            </div>
+            <div class="contact-us-inputs">
+              <input type="text" placeholder="Your e-mail" />
+              <br />
+              <input type="text" placeholder="Your name" />
+              <div class="contact-us-num">
+                <h5 class="h5-con">Telephone number</h5>
+                <input type="text" placeholder="+7 (999) 999 99-99" />
+                <br />
+                <button class="btn">Отправить</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="card">
+        <div class="where">
+          <div class="container-s">
+            <h2 class="where-main">КАК НАС НАЙТИ</h2>
+            <hr />
+            <div class="where-inner">
+              <p class="where-glav">Алматы, Алматинска 228</p>
+              <p class="where-task">E-mail: Test@yandex.ru</p>
+              <p class="where-job">Телефон: 8 (777) 777 77 77 отдел продаж</p>
+              <p class="where-cont">Телефон: 8 (777) 777 77 77 отдел сбыта</p>
+              <p class="where-cont">Контактное лицо: Тортик В.И.</p>
+            </div>
+            <p class="where-join">Присоединяйтесь к нам в социальных сетях!</p>
+            <div class="fonts">
+              <div class="fonts-vk">
+                <i class="fa fa-vk" aria-hidden="true"></i>
+              </div>
+              <div class="fonts-whatsapp">
+                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+              </div>
+              <div class="fonts-instagram">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </div>
+              <div class="fonts-telegram">
+                <i class="fa fa-telegram" aria-hidden="true"></i>
+              </div>
+              <div class="fonts-facebook">
+                <i class="fa fa-facebook-square" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="map">
+          <script type="text/javascript" charset="utf-8" async
+            src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A15206631c33a5c0ff6b87db415a2ffe873f52e33913ade81f9651a695732bffd&amp;width=100%25&amp;height=600&amp;lang=ru_RU&amp;scroll=true"></script>
+        </div>
+      </section>
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-flex">
+            <div class="footer-logo">
+              <a href="index.html">
+                <img src="./images/grab-logo.png" class="footer-logo" alt="">
+              </a>
+            </div>
+            <div class="footer-pos">
+              <p>OOO «YourLogо», 123456, г.Алматы, ул. Алматинская 228, офис 1</p>
+              <p>ИНН 1234567890 ОГРН 123456789012</p>
+              <span>Политика конфиденциальности</span>
+            </div>
+            <div class="footer-num">
+              <p class="footer-num-p"><i class="fa fa-phone" aria-hidden="true"></i> 8 777 777 77 77</p>
+              <p>Звонок по Таджикистану бесплатный</p>
+              <div class="font">
+                <div class="font-vk">
+                  <i class="fa fa-vk" aria-hidden="true"></i>
+                </div>
+                <div class="font-whatsapp">
+                  <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                </div>
+                <div class="font-instagram">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                </div>
+                <div class="font-telegram">
+                  <i class="fa fa-telegram" aria-hidden="true"></i>
+                </div>
+                <div class="font-facebook">
+                  <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script src="js/java.js"></script>
+</body>
+
+</html>

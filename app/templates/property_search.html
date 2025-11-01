@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Scout - Property Search</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/logo-svg.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style_main.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="Room Scout Logo"></a>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('main.home') }}">Home</a>
+            <a href="{{ url_for('main.property_list') }}">Match</a>
+            <a href="{{ url_for('main.messages') }}">Messages</a>
+            <a href="{{ url_for('main.shortlist') }}">My shortlist</a>
+            <a href="{{ url_for('main.my_account') }}">My Account</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="search-section">
+            <form action="#" method="GET">
+                <div class="search-grid">
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" name="location" placeholder="City, area or university">
+                    </div>
+                    <div class="form-group">
+                        <label>Property Type</label>
+                        <select name="propertyType">
+                            <option value="">All Types</option>
+                            <option value="studio">Studio</option>
+                            <option value="shared">Shared House</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="ensuite">En-suite Room</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price Range (£)</label>
+                        <div class="price-range">
+                            <input type="number" name="minPrice" placeholder="Min">
+                            <input type="number" name="maxPrice" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Move-in Date</label>
+                        <input type="date" name="moveInDate">
+                    </div>
+                </div>
+                
+                <div class="filters-section">
+                    <input type="checkbox" name="billsIncluded" id="billsIncluded" class="hidden-checkbox">
+                    <div class="filter-tag" data-filter="billsIncluded">Bills Included</div>
+                    
+                    <input type="checkbox" name="studentOnly" id="studentOnly" class="hidden-checkbox">
+                    <div class="filter-tag" data-filter="studentOnly">Student Only</div>
+                    
+                    <input type="checkbox" name="privateBathroom" id="privateBathroom" class="hidden-checkbox">
+                    <div class="filter-tag" data-filter="privateBathroom">Private Bathroom</div>
+                    
+                    <input type="checkbox" name="furnished" id="furnished" class="hidden-checkbox">
+                    <div class="filter-tag" data-filter="furnished">Furnished</div>
+                    
+                    <input type="checkbox" name="parking" id="parking" class="hidden-checkbox">
+                    <div class="filter-tag" data-filter="parking">Parking</div>
+                    
+                    <input type="checkbox" name="petFriendly" id="petFriendly" class="hidden-checkbox">
+                    <div class="filter-tag" data-filter="petFriendly">Pet Friendly</div>
+                </div>
+
+                <div class="search-actions">
+                    <a href="#" class="advanced-search">Advanced Search Options</a>
+                    <button type="submit" class="search-button">Search Properties</button>
+                </div>
+            </form>
+
+            <div class="search-info">
+                <p>Looking to share? Try our <a href="#" style="color: #333; text-decoration: underline;">roommate matching</a> service</p>
+            </div>
+
+            
+        </div>
+
+        
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+          <div class="footer-flex">
+            <div class="footer-logo">
+              <a href="{{ url_for('main.home') }}">
+                <img src="{{ url_for('static',filename='images/Logo.png') }}" class="footer-logo" alt="">
+              </a>
+            </div>
+            <div class="footer-pos">
+              <p style="font-size:20px;">Our Team:</p>
+              <p style="font-size: 15px;">Ismailov Daniel, Marcellus Lynn, Ikenna Darl-Uzu</p>
+              <p style="font-size: 15px;">George Turner, Josh Leckenby, Joshua Cooper</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterTags = document.querySelectorAll('.filter-tag');
+            
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const filterId = this.getAttribute('data-filter');
+                    const checkbox = document.getElementById(filterId);
+
+                    if (checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        
+                        this.classList.toggle('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Scout - User Profile</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/logo-svg.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style_main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='font-awesome-4.7.0/css/font-awesome.min.css') }}" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="menu">
+            <a href="#" class="menu-btn">
+              <div class="menu-buts">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+              </div>
+            </a>
+            <nav class="menu-list">
+              <a href="{{ url_for('main.home') }}">Home</a>
+              <a href="{{ url_for('main.property_list') }}">Match</a>
+              <a href="{{ url_for('main.messages') }}">Messages</a>
+              <a href="{{ url_for('main.shortlist') }}">My shortlist</a>
+              <a href="{{ url_for('main.login') }}" id="mobile-account-link">Log in</a>
+            </nav>
+          </div>
+        <div class="content">
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="Room Scout Logo"></a>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('main.home') }}">Home</a>
+            <a href="{{ url_for('main.property_list') }}">Match</a>
+            <a href="{{ url_for('main.messages') }}">Messages</a>
+            <a href="{{ url_for('main.shortlist') }}">My shortlist</a>
+            <a href="{{ url_for('main.my_account') }}">My Account</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="account-content" style="max-width: 800px; margin: 0 auto;">
+            <div class="user-profile-header">
+                <div class="user-profile-photo">
+                    <img src="{{ url_for('static', filename='images/avatar2.png') }}" alt="Jane Doe Profile Photo">
+                </div>
+                <div class="user-profile-info">
+                    <h1>{{ username }}</h1>
+                    <p> {{ gender }} </p>
+                    <p> {{ university }}</p>
+                    <p> {{ age }} </p>
+                    
+                    <a href="{{ url_for('main.messages', user_id=123) }}">
+                        <button class="contact-button">Contact {{username}}</button>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="profile-section">
+                <h2 class="section-header">About Me</h2>
+                <p>{{ aboutMe }}</p>
+            </div>
+            
+            <div class="profile-section">
+                <h2 class="section-header">Interests</h2>
+                <div class="interests-container">
+                    {% for hobby in hobbies %}
+                    <span class="interest-tag">{{ hobby }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h2 class="section-header">Housing Preferences</h2>
+                <div class="details">
+                    <p><strong>Maximum distance to station:</strong> {{houseRequirements["maxDistToStation"]}}</p>
+                    <p><strong>Maximum distance to bus stop:</strong> {{houseRequirements["maxDistToBusStop"]}}</p>
+                    <p><strong>Maximum distance to city centre:</strong> {{houseRequirements["maxDistToCityCenter"]}}</p>
+                    <p><strong>Maximum distance to university:</strong> {{houseRequirements["maxDistToUni"]}}</p>
+                    <p><strong>Number of rooms wanted:</strong> {{houseRequirements["houseRooms"]}}</p>
+                    <p><strong>Maximum price:</strong> {{houseRequirements["maxPrice"]}}</p>
+                    <p><strong>Know roommates?</strong>{{houseRequirements["knowRoommates"]}}</p>
+                    <p><strong>Preferred areas:</strong></p>
+                    {% for area in houseRequirements["areas"] %}
+                    <p>- {{area}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h2 class="section-header">Hobbies</h2>
+                <div class="details">
+                    {% for hobby in hobbies %}
+                    <p><strong>- {{hobby}}</strong></p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="{{ url_for('static',filename='js/jquery-3.5.1.min.js') }}"></script>
+<script src="{{ url_for('static',filename='js/java.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Scout - My Account</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/logo-svg.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style_main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='font-awesome-4.7.0/css/font-awesome.min.css') }}" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="menu">
+            <a href="#" class="menu-btn">
+              <div class="menu-buts">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+              </div>
+            </a>
+            <nav class="menu-list">
+              <a href="{{ url_for('main.home') }}">Home</a>
+              <a href="{{ url_for('main.property_list') }}">Match</a>
+              <a href="{{ url_for('main.messages') }}">Messages</a>
+              <a href="{{ url_for('main.shortlist') }}">My shortlist</a>
+              <a href="{{ url_for('main.login') }}" id="mobile-account-link">Log in</a>
+            </nav>
+          </div>
+        <div class="content">
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="Room Scout Logo"></a>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('main.home') }}">Home</a>
+            <a href="{{ url_for('main.property_list') }}">Match</a>
+            <a href="{{ url_for('main.messages') }}">Messages</a>
+            <a href="{{ url_for('main.shortlist') }}">My shortlist</a>
+            <a href="{{ url_for('main.my_account') }}" class="active">My Account</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="account-sidebar">
+            <h2>My Account</h2>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" onclick="showTab('profile')">Profile Information</a></li>
+                <li><a href="#" onclick="showTab('preferences')">Preferences</a></li>
+                <li><a href="#" onclick="showTab('lifestyle')">Lifestyle & Interests</a></li>
+                <li><a href="#" onclick="showTab('privacy')">Privacy Settings</a></li>
+                <li><a href="#" onclick="showTab('security')">Security</a></li>
+            </ul>
+        </div>
+
+        <div class="account-content">
+            <!-- Profile Information Tab -->
+            <div id="profile" class="tab-content active">
+                <h1 class="section-title">Profile Information</h1>
+                
+                <div class="photo-upload">
+                    <div class="profile-photo">
+                        <img src="{{ url_for('static', filename='images/default_avatar.png') }}" alt="Profile Photo" id="profile-image">
+                    </div>
+                    <div>
+                        <input type="file" id="photo-upload" style="display: none;" accept="image/*" onchange="updateProfileImage(this)">
+                        <label for="photo-upload" class="upload-button">Change Photo</label>
+                    </div>
+                </div>
+                
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" name="firstName" value="{{ user_data.username }}">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender">
+                                <option value="">Select your gender</option>
+                                <option value="male" {% if (user_data.gender or '')|lower == 'male' %}selected{% endif %}>Male</option>
+                                <option value="female" {% if (user_data.gender or '')|lower == 'female' %}selected{% endif %}>Female</option>
+                                <option value="non-binary" {% if (user_data.gender or '')|lower == 'non-binary' %}selected{% endif %}>Non-binary</option>
+                                <option value="other" {% if (user_data.gender or '')|lower == 'other' %}selected{% endif %}>Other</option>
+                                <option value="prefer-not-to-say" {% if (user_data.gender or '')|lower == 'prefer-not-to-say' %}selected{% endif %}>Prefer not to say</option>
+                            </select>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" value="{{ user_data.age }}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" value="{{ user_data.email}}">
+                        </div>
+
+                    </div>
+                                        
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="university">University/College (if applicable)</label>
+                            <input type="text" id="university" name="university" value="{{ user_data.university }}">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio">About Me</label>
+                        <textarea id="bio" name="bio">{{ user_data.aboutMe }}</textarea>
+                    </div>
+                    
+                    <button onclick="updateUserInfo(event)" type="submit" class="save-button">Save Changes</button>
+                </form>
+            </div>
+            
+            <!-- Preferences Tab -->
+            <div id="preferences" class="tab-content">
+                <h1 class="section-title">Housing Preferences</h1>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="max-budget">Maximum Budget (£/month)</label>
+                            <input type="number" id="max-budget" name="maxBudget" value="{{ user_data.houseRequirements.maxPrice }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="preferred-area">Preferred Area</label>
+                            <input type="text" id="preferred-area" name="preferredArea" value="{{ user_data.houseRequirements.areas }}">
+                        </div>
+                    </div>
+
+
+                    
+                    <button onclick="updateUserInfo(event)" type="submit" class="save-button">Save Preferences</button>
+                </form>
+            </div>
+            
+
+            <div id="lifestyle" class="tab-content">
+    <h1 class="section-title">Lifestyle & Interests</h1>
+    <form>
+        <h3>Your Interests</h3>
+        <p>Select interests that describe you (click to select/deselect)</p>
+        <div class="interests-container">
+        <label><input type="checkbox" name="interests" value="Reading" checked> Reading</label>
+        <label><input type="checkbox" name="interests" value="Cooking"> Cooking</label>
+        <label><input type="checkbox" name="interests" value="Sports" checked> Sports</label>
+        <label><input type="checkbox" name="interests" value="Movies"> Movies</label>
+        <label><input type="checkbox" name="interests" value="Music"> Music</label>
+        <label><input type="checkbox" name="interests" value="Travel" checked> Travel</label>
+        <label><input type="checkbox" name="interests" value="Photography"> Photography</label>
+        <label><input type="checkbox" name="interests" value="Art"> Art</label>
+        <label><input type="checkbox" name="interests" value="Gaming"> Gaming</label>
+        <label><input type="checkbox" name="interests" value="Hiking"> Hiking</label>
+        <label><input type="checkbox" name="interests" value="Cycling"> Cycling</label>
+        <label><input type="checkbox" name="interests" value="Yoga"> Yoga</label>
+        <label><input type="checkbox" name="interests" value="Tech" checked> Tech</label>
+        <label><input type="checkbox" name="interests" value="Writing"> Writing</label>
+        <label><input type="checkbox" name="interests" value="Fashion"> Fashion</label>
+        <label><input type="checkbox" name="interests" value="Gardening"> Gardening</label>
+        </div>
+    </form>
+                
+<form>
+                    <button onclick="updateUserInfo(event)" type="submit" class="save-button">Save Lifestyle & Interests</button>
+                </form>
+            </div>
+
+                    
+            <!-- Privacy Settings Tab -->
+            <div id="privacy" class="tab-content">
+                <h1 class="section-title">Privacy Settings</h1>
+                <form>
+                    <h3>Profile Visibility</h3>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="show-profile" name="showProfile" checked>
+                        <label for="show-profile">Show my profile to other users</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="show-social" name="showSocial">
+                        <label for="show-social">Show my social media profiles</label>
+                    </div>
+                    
+                    <h3>Data Sharing</h3>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="share-data" name="shareData">
+                        <label for="share-data">Share my data with trusted partners</label>
+                    </div>
+                    
+                    <button onclick="updateUserInfo(event)" type="submit" class="save-button">Save Privacy Settings</button>
+                </form>
+            </div>
+            
+            <!-- Security Tab -->
+            <div id="security" class="tab-content">
+                <h1 class="section-title">Security Settings</h1>
+                <form>
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" name="currentPassword" placeholder="Enter your current password">
+                    </div>
+                    <div class="form-row" style="margin: 0%;">
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" name="newPassword" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm new password">
+                        </div>
+                    </div>
+                    
+                    <button onclick="updateUserInfo(event)" type="submit" class="save-button" style="margin-top: 30px;">Save Security Settings</button>
+
+                    <button onclick="updateUserInfo(event)" type="button" class="upload-button" style="margin-top: 10px;">Sign Out of All Devices</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+    <script src="{{ url_for('static',filename='js/jquery-3.5.1.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/java.js') }}"></script>
+
+
+
+    <script>
+
+
+        function updateUserInfo() {
+        // Prevent the form from submitting (if needed)
+            event.preventDefault();
+
+        // Get the form values
+            const firstName = document.getElementById('first-name').value;
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+            const email = document.getElementById('email').value;
+            const university = document.getElementById('university').value;
+            const bio = document.getElementById('bio').value;
+            const pricePerWeek = document.getElementById('max-budget').value;
+            const area = document.getElementById('preferred-area').value;
+
+            const selectedInterests = [];
+
+        // Loop through all checkboxes with the name "interests"
+            const checkboxes = document.querySelectorAll('input[name="interests"]:checked');
+
+        // Loop through the checked checkboxes and collect their values
+            checkboxes.forEach(checkbox => {
+                selectedInterests.push(checkbox.value);
+            });
+
+        // Log the selected interests
+            console.log('Selected Interests:', selectedInterests);
+
+            fetch("{{ url_for('main.my_account') }}", {
+                method: "POST",
+                body: JSON.stringify({
+                    firstName : firstName,
+                    gender : gender,
+                    age : age,
+                    email : email,
+                    university : university,
+                    bio : bio,
+                    pricePerWeek : pricePerWeek,
+                    area : area,
+                    hobbies : selectedInterests
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })}
+
+
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show the selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update active state in sidebar
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+            
+            // Prevent default link behavior
+            event.preventDefault();
+        }
+        
+        function updateProfileImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    document.getElementById('profile-image').src = e.target.result;
+                };
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        function toggleInterest(element) {
+            element.classList.toggle('selected');
+        }
+    </script>
+</body>
+</html>
